@@ -11,6 +11,8 @@ if __name__ == '__main__':
     dt = 0
     # limits FPS to 60
     fps = 60
+    MYEVENTTYPE = pygame.USEREVENT + 1
+    pygame.time.set_timer(MYEVENTTYPE,1000)
 
     while running:
         screen.fill("purple")
@@ -23,6 +25,9 @@ if __name__ == '__main__':
                 pygame.draw.circle(screen, "red", event.pos, 40)
                 pygame.draw.circle(screen, "red", (event.pos[0], width - event.pos[1]), 40)
                 pygame.draw.circle(screen, "red", (event.pos[1], heigth - event.pos[0]), 40)
+            if event.type == MYEVENTTYPE:
+                print("Моё событие")
+
 
 
         pygame.display.flip()
