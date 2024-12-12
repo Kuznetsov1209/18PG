@@ -9,10 +9,19 @@ class Board:
         self.board = [[0] * width for _ in range(height)]
         self.left = 10
         self.top = 10
-        self.cell_sizze = 30
+        self.cell_size = 30
 
     def render(self, screen):
-        pass
+        for x in range(self.width):
+            for y in range(self.height):
+                pygame.draw.rect(screen, pygame.Color("white"),
+                                 (x * self.cell_size + self.left, y * self.cell_size + self.top, self.cell_size,
+                                  self.cell_size,), 1)
+    def set_view(self, left, top, cell_size):
+        self.left = left
+        self.top = top
+        self.cell_size = cell_size
+
 
 
 def main():
@@ -20,7 +29,8 @@ def main():
     size = width, heigth = 600, 400
     screen = pygame.display.set_mode(size)
     clock = pygame.time.Clock()
-    board = Board(5, 7)
+    board = Board(18, 12)
+    board.set_view(100, 100, 15)
     running = True
     v = 100
     dt = 0
