@@ -7,7 +7,7 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode(size)
     clock = pygame.time.Clock()
     running = True
-    v = 100
+    v = 500
     dt = 0
     # limits FPS to 60
     fps = 60
