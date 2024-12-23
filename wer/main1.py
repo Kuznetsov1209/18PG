@@ -3,7 +3,11 @@ import sys
 import pygame
 from random import randrange, randint
 
-ALL_SPRITES=pygame.sprite.Group()
+ALL_SPRITES = pygame.sprite.Group()
+HORIZONTAL_BORDERS = pygame.sprite.Group()
+VERTICAL_BORDERS = pygame.sprite.Group()
+
+
 class Ball(pygame.sprite.Sprite):
     def __init__(self, radius, x, y):
         super().__init__(ALL_SPRITES)
@@ -21,6 +25,23 @@ class Ball(pygame.sprite.Sprite):
 
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)
+        if pygame.sprite.spritecollideany(self, HORIZONTAL_BORDERS):
+            self.vy = -self.vy
+        if pygame.sprite.spritecollideany(self, VERTICAL_BORDERS):
+            self.vx = -self.vx
+
+class Border(pygame.sprite.Sprite):
+    # строго вертикальный или строго горизонтальный отрезок
+    def __init__(self, x1, y1, x2, y2):
+        super().__init__(ALL_SPRITES)
+        if x1 == x2:  # вертикальная стенка
+            self.add(VERTICAL_BORDERS)
+            self.image = pygame.Surface([1, y2 - y1])
+            self.rect = pygame.Rect(x1, y1, 1, y2 - y1)
+        else:  # горизонтальная стенка
+            self.add(HORIZONTAL_BORDERS)
+            self.image = pygame.Surface([x2 - x1, 1])
+            self.rect = pygame.Rect(x1, y1, x2 - x1, 1)
 
 
 def main():
@@ -29,6 +50,11 @@ def main():
     size = width, height = (1280, 720)
     screen = pygame.display.set_mode(size)
     # Начинаем добавлять спрайты
+
+    Border(5, 5, width - 5, 5)
+    Border(5, height - 5, width - 5, height - 5)
+    Border(5, 5, 5, height - 5)
+    Border(width - 5, 5, width - 5, height - 5)
 
     for _ in range(10):
         Ball(20, 200, 200)
@@ -50,6 +76,7 @@ def main():
         clock.tick(60)  # limits FPS to 60
     pygame.quit()
 
+
 def load_image(name, colorkey=None):
     fullname = os.path.join('images', name)
     if not os.path.isfile(fullname):
@@ -64,6 +91,7 @@ def load_image(name, colorkey=None):
     else:
         image = image.convert_alpha()  # метод для преобразования изображения с сохранением информации о прозрачности
     return image
+
 
 if __name__ == '__main__':
     main()
