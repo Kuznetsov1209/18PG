@@ -29,7 +29,7 @@ class Ball(pygame.sprite.Sprite):
             self.vy = -self.vy
         if pygame.sprite.spritecollideany(self, VERTICAL_BORDERS):
             self.vx = -self.vx
-
+#
 class Border(pygame.sprite.Sprite):
     # строго вертикальный или строго горизонтальный отрезок
     def __init__(self, x1, y1, x2, y2):
